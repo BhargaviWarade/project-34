@@ -7,7 +7,7 @@ var knife,fruit ,monster,fruitGroup,monsterGroup, score,r,randomFruit, position;
 var knifeImage , fruit1, fruit2 ,fruit3,fruit4, monsterImage, gameOverImg;
 var knifeSwooshSound , gameoverSound;
 var bg;
-var score=0;
+var shoppingPoints=0;
 function preload(){
   
   knifeImage = loadImage("bag2.png");
@@ -50,21 +50,23 @@ function draw() {
   background(bg);
   //Display score
   textSize(22);
-  text("Score : "+score,15,20);
-  textSize(24);
+  text("Shopping Points : "+shoppingPoints,15,20);
+  textSize(30);
   fill("black");
-  text("HELP TO COLLECT FRUITS IN BAG...",120,50);
+  text("Shop the fruits",200,50);
   
   
   if(gameState===PLAY){
-    
-    //Call fruits and Monster function
-    fruits();
-    Monster();
-    
-    // Move sword with mouse
+     // Move sword with mouse
     //knife.y=World.mouseY;
     knife.x=World.mouseX;
+
+    fruits();
+    //fruit2();
+    //fruit3();
+    //fruit4();
+    Monster();
+    
   
     
     
@@ -72,13 +74,18 @@ function draw() {
     if(fruitGroup.isTouching(knife)){
       fruitGroup.destroyEach();
       //knifeSwooshSound.play();
-      score=score+5;
+      shoppingPoints=shoppingPoints+10;
     }
     else
     {
       // Go to end state if sword touching enemy
       if(monsterGroup.isTouching(knife)){
         gameState=END;
+
+        /*if(gameState === END){
+        text("Thank you for shopping");
+        }*/
+
         
         //add gameover sound here
        // gameoverSound.play();
@@ -88,7 +95,7 @@ function draw() {
         fruitGroup.setVelocityYEach(0);
         monsterGroup.setVelocityYEach(0);
         
-        // Change the animation of sword to gameover and reset its position
+      
         knife.addImage(gameOverImg);
         knife.scale=0.02
         knife.x=300;
@@ -109,7 +116,7 @@ function Monster(){
     monster.addAnimation("moving", monsterImage);
     monster.y=Math.round(random(100,550));
     //update below give line of code for increase monsterGroup speed by 10
-    monster.velocityY = (8+(score/10));
+    monster.velocityY = (8+(shoppingPoints/10));
     monster.setLifetime=50;
     
     monsterGroup.add(monster);
@@ -117,7 +124,7 @@ function Monster(){
 }
 
 function fruits(){
-  if(World.frameCount%80===0){
+  if(World.frameCount%200===0){
     position = Math.round(random(1,2,3,4));
     fruit=createSprite(400,200,20,20);
     // Increase score if sword toching fruit
@@ -128,7 +135,7 @@ function fruits(){
     
     if(position==1){
     fruit.y = 600;
-    fruit.velocityY=-(7+(score/4));
+    fruit.velocityY=-(7+(shoppingPoints/4));
     }
     else
     {
@@ -141,7 +148,7 @@ function fruits(){
     }
     
     fruit.scale=0.2;
-     fruit.debug=true;
+     //fruit.debug=true;
      r=Math.round(random(1,4));
     if (r == 1) {
       fruit.addImage(fruit1);
@@ -156,8 +163,63 @@ function fruits(){
     fruit.y=Math.round(random(50,550));
    
     
-    fruit.setLifetime=150;
+    fruit.setLifetime=-200;
     
     fruitGroup.add(fruit);
   }
 }
+
+/*function fruits(){
+  if (World.frameCount % 530 == 0) {
+    var fruits = createSprite(Math.round(random(50, 350),40, 10, 10));
+   fruits.addImage(f)
+
+}
+}*/
+
+/*function fruit1() {
+  if (World.frameCount % 200 == 0) {
+  var fruit1 = createSprite(Math.round(random(50, 350),40, 10, 10));
+  fruit1.addImage("fruits",fruit1);
+  fruit1.scale=0.12;
+  fruit1.velocityY = 3;
+  fruit1.lifetime = 150;
+  fruitGroup.add(fruit1);
+  }
+}
+
+function fruit2() {
+  if (World.frameCount % 320 == 0) {
+  var fruit2 = createSprite(Math.round(random(50, 350),40, 10, 10));
+  fruit2.addImage("fruits",fruit2);
+  fruit2.scale=0.03;
+  fruit2.velocityY = 3;
+  fruit2.lifetime = 150;
+  fruitGroup.add(fruit2);
+}
+}
+
+
+
+function fruit3() {
+  if (World.frameCount % 410 == 0) {
+  var fruit3 = createSprite(Math.round(random(50, 350),40, 10, 10));
+  fruit3.addImage("fruits",fruit3);
+  fruit3.scale=0.13;
+  fruit3.velocityY = 3;
+  fruit3.lifetime = 150;
+  fruitGroup.add(fruit3);
+  }
+}
+
+function fruit4(){
+  if (World.frameCount % 530 == 0) {
+  var fruit4 = createSprite(Math.round(random(50, 350),40, 10, 10));
+  fruit4.addImage(swordImg);
+  fruit4.scale=0.1;
+  fruit4.velocityY = 3;
+  fruit4.lifetime = 150;
+  fruitGroup.add(fruit4);
+  }
+}
+*/
